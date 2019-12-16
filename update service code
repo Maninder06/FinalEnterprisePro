@@ -1,0 +1,20 @@
+app.post('/updatecustomer',(req,res) => {
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+console.log("welcome yo update");
+
+MongoClient.connect(url, function(err, db)
+{
+if (err) throw err;
+var dbo = db.db("Haste_Pickup_Service");
+var query = {'registration_id':req.body.rid};
+var newquery = { $set: { 'customer_username': req.body.cname ,'firstName':req.body.fname,'lastname':req.body.lname,'address':req.body.addr } };
+dbo.collection('customer').updateOne(query,newquery,function(err, result)
+{
+if (err) throw err;
+res.send('COLLECTION  UPDATED');
+db.close();
+});
+});
+
+});
